@@ -11,5 +11,6 @@ router.get('/', async (ctx) => {
     status: true
   }
 })
+module.exports = router
 
 
