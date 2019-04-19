@@ -3,7 +3,8 @@ import * as constants from '@/redux/constants'
 // state
 const defaultState = {
   count: 11,
-  isLogin: false
+  isLogin: false,
+  isRegister: false
 }
 
 // reducer
@@ -14,6 +15,8 @@ export const demoReducer = (state = defaultState, action) => {
 
     case constants.DEMO_LOGIN:
       return { ...state, isLogin: true }
+    case constants.DEMO_REGISTER:
+      return { ...state, isRegister: true }
 
     case constants.DEMO_LOGINOUT:
       return { ...state, isLogin: false }
