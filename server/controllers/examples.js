@@ -4,7 +4,7 @@ const { createToken } = require('../lib/token')
 
 module.exports = {
   async login(ctx) {
-    try {
+    // try {
       const { username, password } = ctx.request.body
       const user = await ExampleModel.findOne({ where: { username } })
       if (!user) {
@@ -18,9 +18,9 @@ module.exports = {
           ctx.body = { code: 200, message: '登录成功', token }
         }
       }
-    } catch (err) {
-      ctx.body = { code: 500, message: 'Internal Server Error.' }
-    }
+    // } catch (err) {
+    //   ctx.body = { code: 500, message: 'Internal Server Error.' }
+    // }
   },
   async register(ctx) {
     const { username, password } = ctx.request.body

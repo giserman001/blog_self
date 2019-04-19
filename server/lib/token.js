@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken')
  * @function createToken - 生成token
  */
 exports.createToken = (info) => {
-  const token = jwt.sign(info, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRESIN })
+  // jwt.sign()方法第一个参数是一个对象
+  const token = jwt.sign({info}, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRESIN })
   return token
 }
 
