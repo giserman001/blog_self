@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '@/components/Layout/web'
+import Layout from '@/components/web/layout'
 import PageNotFound from '@/components/NotFound'
 
 import Home from './home'

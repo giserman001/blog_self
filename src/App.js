@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import Loading from '@/components/Loading'
 import routes from '@/routes/config'
 import { connect } from 'react-redux'
-
 @connect(state => ({
   isLogin: state.demo.isLogin
 }))
@@ -49,6 +48,8 @@ class App extends Component {
           // object 时 即为 lazyload 返回的对象时，使用 () => <Component /> 去装载路由组件
           children.push(<Route key={newContextPath} component={() => <item.component />} path={newContextPath} exact />)
         }
+      } else if (item.childRoutes) {
+        item.childRoutes.forEach(r => renderRoute(r, newContextPath))
       }
     }
 
