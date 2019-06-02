@@ -14,7 +14,7 @@ module.exports = {
         if (!isMatch) {
           ctx.body = { code: 403, message: '密码不正确' }
         } else {
-          const token = createToken(username) // 生成token
+          const token = createToken({username}) // 生成token
           ctx.body = { code: 200, message: '登录成功', token }
         }
       }
