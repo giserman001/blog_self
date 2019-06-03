@@ -24,22 +24,37 @@ instance.interceptors.request.use((config) => {
 // 拦截响应
 instance.interceptors.response.use((response) => {
   NProgress.done()
+  if (response.data.code !== 200) {
+    response.data.message && message.warning(response.data.message)
+    return Promise.reject(response.data)
+  }
   return response.data
 }, (error) => {
   NProgress.done()
-  if (error.response) {
+  if (error && error.response) {
     switch (error.response.status) {
+      case 400:
+        message.error('错误请求')
+        break
       case 401:
-        message.error('您未被授权，请重新登录')
+        localStorage.clear()
+        message.error('登录信息过期或未授权，请重新登录！')
+        break
+      case 403:
+        message.error('拒绝访问！')
+        break
+      case 404:
+        message.error('请求错误,未找到该资源！')
         break
       case 500:
-        message.error('服务器出问题了，请稍后再试')
+        message.error('服务器出问题了，请稍后再试！')
         break
       default:
-        message.error('未知异常')
+        message.error(`连接错误 ${error.response.status}！`)
         break
     }
-    localStorage.clear()
+  } else {
+    message.error('服务器出了点小问题，请稍后再试！')
   }
   return Promise.reject(error)
 })

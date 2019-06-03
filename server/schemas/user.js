@@ -8,7 +8,7 @@ const regiester = Joi.object().keys({
 
 const login = Joi.object().keys({
     account: Joi.string().required(),
-    password: Joi.string().require()
+    password: Joi.string().required()
 })
 
 module.exports = {
