@@ -1,17 +1,19 @@
 import homeRoutes from '@/views/web/routes'
 import examplesRoute from '@/examples/routes'
 import adminRoutes from '@/views/admin/routes'
+import rootRoutes from './rootRoutes'
 
 const childRoutes = [
-  examplesRoute,
+  rootRoutes,
   adminRoutes,
   homeRoutes
 ]
-
+const isDev = process.env.NODE_ENV === 'development'
+if (isDev) childRoutes.unshift(examplesRoute)
 const routes = [
   ...childRoutes.filter(r => r.component || (r.childRoutes && r.childRoutes.length > 0))
 ]
-
+console.log(routes, '过滤前')
 /**
  * 过滤路由信息，路由信息中含有 isIndex 的在渲染
  *
@@ -33,5 +35,6 @@ function handleIndexRoute(route) {
 }
 
 routes.forEach(handleIndexRoute)
+console.log(routes, '处理结束')
 
 export default routes
