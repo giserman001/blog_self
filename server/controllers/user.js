@@ -1,5 +1,7 @@
 const Joi = require('joi')
 const UserSchema = require('../schemas/user')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 
 const {user: UserModel} = require('../models')
@@ -41,9 +43,10 @@ module.exports = {
         }else{
             const user = await UserModel.findOne({
                 where: {
-                    $or: {username: account, email: account}
+                    [Op.or]: [{username: account}, {email: account}]
                 }
             })
+            console.log(user, '查到了吗')
             if (!user) {
                 response = { code: 400, message: '用户不存在' }
             }else{

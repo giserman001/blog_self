@@ -4,7 +4,7 @@ import Loading from '@/components/Loading'
 import routes from '@/routes/config'
 import { connect } from 'react-redux'
 @connect(state => ({
-  isLogin: state.demo.isLogin
+  state: state.user
 }))
 class App extends Component {
   /**
@@ -17,10 +17,10 @@ class App extends Component {
 
     const renderRoute = (item, routeContextPath) => {
       // auth handler
-      if (item.protected && !this.props.isLogin) {
+      if (item.protected && this.props.auth !== 1) {
         item = {
           ...item,
-          component: () => <Redirect to="/admin/login" />,
+          component: () => <Redirect to="/login" />,
           children: []
         }
       }

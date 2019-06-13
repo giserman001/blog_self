@@ -17,6 +17,7 @@ export const login = params => {
             } else {
                 message.error(res.message)
             }
+            return res
         })
     }
 }

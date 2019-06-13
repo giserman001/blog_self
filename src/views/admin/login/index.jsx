@@ -3,24 +3,27 @@ import { withRouter } from 'react-router-dom'
 import './index.less'
 import { connect } from 'react-redux'
 import { Button, message, Input, Icon } from 'antd'
-import { login } from '@/redux/demo/actions'
+import { login } from '@/redux/user/actions'
 import logo from '@/assets/logo.svg'
 
 @withRouter
 @connect(
-  state => state.demo,
+  state => state.user,
   { login }
 )
 class Login extends Component {
   state = {
-    username: 'liuya',
-    password: 'liuya'
+    account: 'admin',
+    password: 'admin'
   }
   handleSubmit = async () => {
-    await this.props.login({ username: this.state.username, password: this.state.password })
-    if (this.props.isLogin) {
+    let data = await this.props.login(this.state)
+    console.log(data, '我执行的先后顺序')
+    if (this.props.auth === 1) {
+      this.props.history.push('/admin')
       message.success('success login')
-      this.props.history.push('/examples')
+    } else {
+      message.warning('您的权限不足！')
     }
   }
   handleChange = (e) => {
@@ -37,9 +40,9 @@ class Login extends Component {
             size="large"
             style={{ marginBottom: 25 }}
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            name="username"
-            placeholder="Username"
-            value={this.state.username}
+            name="account"
+            placeholder="用户名"
+            value={this.state.account}
             onChange={this.handleChange}
           />
           <Input
@@ -48,7 +51,7 @@ class Login extends Component {
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="密码"
             value={this.state.password}
             onChange={this.handleChange}
           />
