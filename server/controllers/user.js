@@ -1,12 +1,10 @@
 const Joi = require('joi')
 const UserSchema = require('../schemas/user')
-const Sequelize = require('sequelize')
+
+const {user: UserModel, sequelize, Sequelize} = require('../models')
 const Op = Sequelize.Op
-
-
-const {user: UserModel} = require('../models')
 const { encrypt, comparePassword } = require('../lib/bcrypt')
-const { createToken } = require('../lib/token')
+const { createToken, checkAuth } = require('../lib/token')
 
 module.exports = {
     // 注册
@@ -46,7 +44,6 @@ module.exports = {
                     [Op.or]: [{username: account}, {email: account}]
                 }
             })
-            console.log(user, '查到了吗')
             if (!user) {
                 response = { code: 400, message: '用户不存在' }
             }else{
@@ -61,5 +58,45 @@ module.exports = {
             }
         }
         ctx.body = response
+    },
+    // 获取用户列表
+    async getUserList(ctx) {
+        const isAuth = checkAuth(ctx)
+        if (isAuth) {
+            // 注意：get请求这里是通过ctx.query接收参数
+            let { page = 1, pageSize = 10, username } = ctx.query
+            const offset = (page-1) * pageSize
+            pageSize = parseInt(pageSize)
+            // $like设置模糊查询
+            const params = username ? { username: {[Op.like]: `%${username}%`} } : {}
+            const data = await UserModel.findAndCountAll({
+                attributes: ['id', 'username', 'createdAt'],
+                where: { auth: 2, ...params },
+                // Sequelize中使用include hook可以方便的进行表关联(关联评论和回复)
+                include: [],
+                offset,
+                limit: pageSize,
+                row: true,
+                distinct: true,
+                order: [['createdAt', 'DESC']]
+            })
+            ctx.body = { code: 200, ...data }
+        }
+    },
+    // 删除用户
+    async delete(ctx) {
+        const isAuth = checkAuth(ctx)
+        if (isAuth) {
+            let { userId } = ctx.query
+            userId = parseInt(userId)
+            // 使用原始查询或执行已经准备好的SQL语句，可以用Sequelize提供的工具函数sequelize.query实现.
+            // 删除该用户所有评论和回复（需要加强sql的理解）
+            await sequelize.query(
+                `delete comment, reply from comment left join reply on comment.id=reply.commentId where comment.userId=${userId}`
+            )
+            // 删除数据库里用户数据
+            await UserModel.destroy({ where: { id: userId } })
+            ctx.body = { code: 200, message: '成功删除用户' }
+        }
     }
 }

@@ -17,8 +17,7 @@ class Login extends Component {
     password: 'admin'
   }
   handleSubmit = async () => {
-    let data = await this.props.login(this.state)
-    console.log(data, '我执行的先后顺序')
+    await this.props.login(this.state)
     if (this.props.auth === 1) {
       this.props.history.push('/admin')
       message.success('success login')

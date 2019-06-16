@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader' //局部刷新
 import { Provider } from 'react-redux'
 import store from '@/redux'
+import axios from '@/lib/axios'
 import App from './App';
 // 样式重置
 import '@/style/reset.less'
@@ -11,6 +12,9 @@ import '@/assets/iconfont/iconfont.css'
 
 // 全局样式引入
 import '@/style/index.less'
+
+// 绑定 全局方法 axios
+React.Component.prototype.axios = axios
 
 const render = (Component) => {
   ReactDOM.render(
