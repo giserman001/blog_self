@@ -1,5 +1,5 @@
 import marked from 'marked'
-// import hljs from 'highlight.js'
+import hljs from 'highlight.js'
 
 // 防止xss攻击
 import xss from 'xss'

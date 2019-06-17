@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { getCommentsCount } from '@/lib/util'
-import { Table, Button, Modal, message, Badge } from 'antd'
+import { Table, Button, Modal, message } from 'antd'
 import QueryForm from './queryForm'
 import moment from 'moment'
 import './index.less'
@@ -59,7 +59,6 @@ class UserManage extends Component {
             userId
           }
         }).then(res => {
-          console.log(res)
           this.fetchList(this.state.pagination)
           message.success(res.message)
         })

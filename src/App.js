@@ -24,12 +24,7 @@ class App extends Component {
           children: []
         }
       }
-      let newContextPath
-      if (/^\//.test(item.path)) {
-        newContextPath = item.path
-      } else {
-        newContextPath = `${routeContextPath}/${item.path}`
-      }
+      let newContextPath = item.path ? `${routeContextPath}/${item.path}` : routeContextPath
       newContextPath = newContextPath.replace(/\/+/g, '/')
       if (item.component && item.childRoutes) {
         const childRoutes = this.renderRoutes(item.childRoutes, newContextPath)
@@ -44,7 +39,7 @@ class App extends Component {
         if (typeof item.component === 'function') {
           children.push(<Route key={newContextPath} component={item.component} path={newContextPath} exact />)
         } else {
-          // fix: Failed prop type: Invalid prop `component` of type `object` supplied to `Route`, expected `function`
+          // 修复: Failed prop type: Invalid prop `component` of type `object` supplied to `Route`, expected `function`
           // object 时 即为 lazyload 返回的对象时，使用 () => <Component /> 去装载路由组件
           children.push(<Route key={newContextPath} component={() => <item.component />} path={newContextPath} exact />)
         }
