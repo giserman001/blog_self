@@ -13,7 +13,7 @@ const CheckableTag = Tag.CheckableTag
  * @class SelectCates
  * @extends {Component}
  */
-
+@connect(state => state.article)
 class SelectCates extends Component {
     constructor(props) {
         super(props)
@@ -89,3 +89,5 @@ class SelectCates extends Component {
         )
     }
 }
+
+export default SelectCates

@@ -8,3 +8,7 @@ export const DEMO_LOGINOUT = 'DEMO_LOGINOUT'
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_REGISTER = 'USER_REGISTER'
 export const USER_LOGINOUT = 'USER_LOGINOUT'
+
+
+export const TAG_GETLIST = 'TAGS_GETLIST'
+export const CATEGORY_GETLIST = 'CATEGORY_GETLIST'

@@ -7,8 +7,9 @@ import 'simplemde/dist/simplemde.min.css'
 import './index.less'
 
 import { Button, Input, Modal, BackTop } from 'antd'
-// import SelectCate from './components/Cate'
+import SelectCate from './components/cate'
 
+@connect(state => state.article)
 class Edit extends Component {
     state = {
         value: '',
@@ -20,6 +21,18 @@ class Edit extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
+    componentDidMount() {
+        this.smde = new SimpleMDE({
+            element: document.getElementById('editor').childElementCount,
+            autofocus: true,
+            autosave: true,
+            previewRender: translateMarkdown
+        })
+        // 判断是编辑还是新增
+        if (this.props.history.location.state) {
+            const { articleId } = this.props.history.location.state
+        }
+    }
     handleSubmit = () => {
         console.log('确定')
     }
@@ -28,19 +41,19 @@ class Edit extends Component {
         return (
             <div className="edit">
                 <div className="blog-formItem">
-                    <span className="label">标题: </span>
+                    <span className="label">标题：</span>
                     <Input
-                        placeholder="输入文章标题"
+                        placeholder="请输入文章标题"
                         className="title-input"
                         name="title"
                         value={title}
                         onChange={this.handleChange}
                     />
                 </div>
-                {/* <SelectCate
+                <SelectCate
                     type="category"
                     showNum={10}
-                    onRef={el => this.$categoryRef = el}
+                    onRef={el => (this.$categoryRef = el)}
                     list={categoryList}
                     isEdit={isEdit}
                 />
@@ -50,7 +63,7 @@ class Edit extends Component {
                     onRef={el => (this.$tagRef = el)}
                     list={tagList}
                     isEdit={isEdit}
-                /> */}
+                />
                 <br />
                 <textarea id="editor" defaultValue={value} />
                 <Button onClick={this.handleSubmit} type="primary">
