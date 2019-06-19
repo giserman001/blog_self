@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux'
+import SelfCate from './SelfCate'
 
 import { Tag } from 'antd'
 const CheckableTag = Tag.CheckableTag
@@ -57,6 +58,21 @@ class SelectCates extends Component {
             selectList: nextSelectList
         })
     }
+    // 获取最终结构
+    getResult = () => {
+        const { selectList } = this.state
+        const selfList = this.$selfCateRef.state.list
+        return [...selectList, ...selfList]
+    }
+    componentDidMount() {
+        this.props.onRef && this.props.onRef(this)
+    }
+    componentWillReceiveProps(nextProps) {
+        // 編輯狀態----重置上一次selectList狀態
+        if (this.props.list !== nextProps.list && nextProps.isEdit) {
+            this.setState({ selectList: nextProps.list })
+        }
+    }
     render() {
         const { selectList } = this.state
         const { type, isEdit } = this.props
@@ -80,11 +96,12 @@ class SelectCates extends Component {
                                 key={item}
                                 checked={selectList.includes(item)}
                                 onChange={checked => this.handleSelect(item, checked)}>
-                            >
+                                >
                                 {item}
                             </CheckableTag>
                         ))
                 }
+                <SelfCate CommonlyList={this.props.list} ref={el => (this.$selfCateRef = el)} />
             </div>
         )
     }
