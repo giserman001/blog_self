@@ -23,6 +23,7 @@ class SelectCates extends Component {
         // 新增状态
         if (!this.props.isEdit) {
             this.CommonlyList = this.getCommonlyList(this.props[`${type}List`], showNum)
+            console.log(this.CommonlyList, '我有数据吗')
             // 默认选中第一个  selectList = this.props.list
             selectList = this.CommonlyList[0] ? [this.CommonlyList[0]] : []
         }
@@ -96,7 +97,6 @@ class SelectCates extends Component {
                                 key={item}
                                 checked={selectList.includes(item)}
                                 onChange={checked => this.handleSelect(item, checked)}>
-                                >
                                 {item}
                             </CheckableTag>
                         ))

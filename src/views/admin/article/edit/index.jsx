@@ -9,7 +9,9 @@ import './index.less'
 import { Button, Input, Modal, BackTop } from 'antd'
 import SelectCate from './components/cate'
 
-@connect(state => state.article)
+@connect(
+    state => state.article
+)
 class Edit extends Component {
     state = {
         value: '',

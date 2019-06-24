@@ -3,10 +3,15 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import Loading from '@/components/Loading'
 import routes from '@/routes/config'
 import { connect } from 'react-redux'
+import { getTags, getCategories } from '@/redux/article/action'
 @connect(state => ({
   state: state.user
-}))
+}),{ getTags, getCategories })
 class App extends Component {
+  componentDidMount() {
+    this.props.getTags()
+    this.props.getCategories()
+  }
   /**
   * 根据路由表生成路由组件
   * @param {Array} routes - 路由配置表
