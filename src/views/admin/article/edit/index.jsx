@@ -36,7 +36,28 @@ class Edit extends Component {
         }
     }
     handleSubmit = () => {
-        console.log('确定')
+        const tags = this.$tagRef.getResult()
+        const categories = this.$categoryRef.getResult()
+        let params = {
+            title: this.state.title,
+            content: this.smde.value(),
+            categories,
+            tags
+        }
+        if (this.state.isEdit) {
+            console.log('我是编辑')
+        } else {
+            this.axios.post('/article/create', params).then(res => {
+                console.log(res)
+                Modal.confirm({
+                    title: '文章创建成功！是否立即查看？',
+                    onOk: () => {
+                        console.log('go article')
+                    }
+                })
+            })
+        }
+
     }
     render() {
         const { title, value, categoryList, tagList, isEdit } = this.state
