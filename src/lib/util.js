@@ -21,6 +21,8 @@ export const translateMarkdown = (plainText, isGuardXss = false) => {
     })
 }
 
+// 取数组中的随机数
+export const random = arr => Math.floor(Math.random() * arr.length)
 
 
 
