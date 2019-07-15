@@ -42,6 +42,16 @@ function getLastIndex(dynamic = false, elements) {
   return els.length - 1
 }
 
+/**
+ * antd 触发响应式的断点
+ *  xs: '480px',
+    sm: '576px',
+    md: '768px',
+    lg: '992px',
+    xl: '1200px',
+    xxl: '1600px',
+ */
+
 const defaultFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -83,6 +93,16 @@ function pickProps(source, props) {
     if (prop in source) target[prop] = source[prop]
   })
   return target
+}
+// 判断部件类型 渲染部件
+function renderWidget(element, widgetProps) {
+  let res
+  if (typeof element.widget === 'function') {
+    res = <element.widget {...widgetProps}>{element.children || null}</element.widget>
+  } else if (typeof element.widget === 'object') {
+    res = element.widget
+  }
+  return res
 }
 
 /**
@@ -207,7 +227,8 @@ class FormBuilder extends Component {
           <FormItem {...formItemProps}>
             {
               getFieldDecorator(element.id || element.key, fieldProps)(
-                <element.widget {...widgetProps}>{element.children || null}</element.widget>
+                // <element.widget {...widgetProps}>{element.children || null}</element.widget>
+                renderWidget(element, widgetProps)
               )
             }
           </FormItem>
@@ -221,7 +242,8 @@ class FormBuilder extends Component {
         <FormItem {...formItemProps}>
           {
             getFieldDecorator(element.id || element.key, fieldProps)(
-              <element.widget {...widgetProps}>{element.children || null}</element.widget>
+              // <element.widget {...widgetProps}>{element.children || null}</element.widget>
+              renderWidget(element, widgetProps)
             )
           }
         </FormItem>

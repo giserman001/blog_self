@@ -14,6 +14,7 @@ const genderOptions = [{ value: 0, label: 'Male' }, { value: 1, label: 'Female' 
  * colon 标签前是否显示冒号
  * columns 一行内显示几个表单控件 默认一行显示一个
  * gutter 多个 columns 时，gutter 为行之间的间距
+ * formItemLayout 针对所有表单自定义布局
  * element
  *    id | key 对应的表单字段名 isRequired
  *    label 显示的 label

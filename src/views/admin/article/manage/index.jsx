@@ -86,12 +86,15 @@ class Manager extends Component {
             }
         ]
     }
+    getQuery = query => {
+      this.setState({ query })
+    }
     render() {
         const { list, pagination, loading } = this.state
         return(
             <div className="manager">
-                <QueryForm />
-                <Table 
+                <QueryForm getQuery={this.getQuery}/>
+                <Table
                     rowKey="id"
                     bordered
                     loading={loading}

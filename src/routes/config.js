@@ -34,6 +34,5 @@ function handleIndexRoute(route) {
 }
 
 routes.forEach(handleIndexRoute)
-console.log(routes, '我是啥？')
 
 export default routes

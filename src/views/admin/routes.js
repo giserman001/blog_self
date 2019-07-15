@@ -1,11 +1,12 @@
-import lazy, { asyncComponent, lazyLoad } from '@/components/helper/lazyLoad'
+import { lazy } from 'react'
+import lazyReact, { asyncComponent, lazyLoad } from '@/components/helper/lazyLoad'
 import Layout from '@/components/admin/layout'
 import PageNotFound from '@/components/NotFound'
 
 
 
 import Home from './home'
-const UserManage = lazy(() => import('./user'))
+const UserManage = lazyReact(lazy(() => import('./user')))
 const Edit = asyncComponent(() => import('./article/edit'))
 const Manager = lazyLoad(() => import('./article/manage'))
 
