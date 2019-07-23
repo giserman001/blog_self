@@ -4,11 +4,15 @@ import './index.less'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-// import { random } from '@/lib'
+import { random } from '@/lib/util'
 import { Table, Divider, Tag, Modal, message, Badge } from 'antd'
 import moment from 'moment'
 import QueryForm from './queryForm'
 
+@connect(state => ({
+    colorList: state.common.colorList,
+    tagList: state.article.tagList
+}))
 class Manager extends Component {
     state = {
         colorMap: {},
@@ -16,6 +20,18 @@ class Manager extends Component {
         pagination: {},
         total: 0,
         loading: false
+    }
+    componentDidMount() {
+        const { colorList, tagList } = this.props
+        let colorMap = {}
+        tagList.forEach(item => {
+            colorMap[item.name] = colorList[random(colorList)]
+        })
+        this.setState({ colorMap }, () => this.fetchList({ page: 1 }))
+    }
+    fetchList = ({current = 1, pageSize = 10, ...query}) => {
+        this.setState({ loading: true })
+        // TODO 写到这里了
     }
     handleChange = () => {
 
